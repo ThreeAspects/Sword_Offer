@@ -1,0 +1,33 @@
+import java.util.ArrayList;
+public class Solution {
+    public ArrayList<Integer> printMatrix(int [][] matrix) {
+      int left=0;
+		int right=matrix[0].length-1;
+		int top=0;
+		int bottom=matrix.length-1;
+		ArrayList<Integer> result=new ArrayList<Integer>();
+		while(left<=right&&top<=bottom) {
+		for(int i=left;i<=right;i++) {
+			result.add(matrix[top][i]);
+		}
+		for(int j=top+1;j<=bottom;j++) {
+			result.add(matrix[j][right]);
+		}
+		if(top!=bottom) {
+		for(int k=right-1;k>=left;k--) {
+			result.add(matrix[bottom][k]);
+		}
+		}
+		if(left!=right) {
+		for(int l=bottom-1;l>top;l--) {
+			result.add(matrix[l][left]);
+		}
+		}
+		left++;
+		right--;
+		top++;
+		bottom--;
+		}
+		return result;
+    }
+}

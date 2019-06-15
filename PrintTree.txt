@@ -1,0 +1,49 @@
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Iterator;
+/*
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+public class Solution {
+    ArrayList<ArrayList<Integer> > Print(TreeNode pRoot) {
+    ArrayList<ArrayList<Integer>> result=new ArrayList<ArrayList<Integer>>();
+        ArrayList<Integer> temp=new ArrayList<Integer>();
+        LinkedList<TreeNode> list=new LinkedList<TreeNode>();
+        if(pRoot==null){
+            return result;
+        }
+        list.addLast(null);
+        list.addLast(pRoot);
+        while(list.size()!=1){
+            TreeNode node=list.removeFirst();
+            if(node==null){
+                Iterator<TreeNode> iterator=list.iterator();
+                while(iterator.hasNext()){
+                    TreeNode m=iterator.next();
+                    temp.add(m.val);
+                }
+                result.add(new ArrayList<Integer>(temp));
+                temp.clear();
+                list.addLast(null);
+                continue;
+            }
+            if(node.left!=null){
+                list.addLast(node.left);
+            }
+            if(node.right!=null){
+                list.addLast(node.right);
+            }
+        }
+        return result;
+    }
+}

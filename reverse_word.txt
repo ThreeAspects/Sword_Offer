@@ -1,0 +1,29 @@
+public class Solution {
+    public String ReverseSentence(String str) {
+        StringBuffer result=new StringBuffer();
+	String temp;
+	int count=0;
+        for(int i=str.length()-1;i>=0;i--) {
+        	if((str.charAt(i)==' '&&i!=0)||i==0) {
+        		if(i!=0) {
+        		temp=str.substring(i+1, i+count+1);
+        		}else {
+        			temp=str.substring(i, i+count+1);
+        		}
+        		result.append(temp);
+        		if(i!=0) {
+        		result.append(' ');
+        		}
+        		count=0;
+        	}else if(str.charAt(i)==' '&&i==0) {
+        		temp=str.substring(i+1, i+count+1);
+        		result.append(temp);
+        		result.append(' ');
+        	}
+        	else {
+        		count++;
+        	}
+        }
+        return result.toString();
+    }
+}
