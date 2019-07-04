@@ -1,0 +1,84 @@
+select es.emp_no as emp_no,ms.emp_no as manager_no,es.salary as emp_salary,ms.salary as manager_salary 
+from (select e.emp_no,e.dept_no,s1.salary from dept_emp e inner join salaries s1 on e.emp_no=s1.emp_no and e.to_date='9999-01-01' and s1.to_date='9999-01-01') es 
+inner join 
+(select m.emp_no,m.dept_no,s2.salary from dept_manager m inner join salaries s2 on m.emp_no=s2.emp_no and m.to_date='9999-01-01' and s2.to_date='9999-01-01') ms 
+on es.dept_no=ms.dept_no and es.salary>ms.salary;
+
+select e.dept_no,dp.dept_name,t.title,count(t.emp_no) 
+from 
+departments dp inner join dept_emp e on dp.dept_no=e.dept_no and e.to_date='9999-01-01' 
+inner join titles t on t.emp_no=e.emp_no and t.to_date='9999-01-01' 
+group by e.dept_no,dp.dept_name,t.title;
+
+select s1.emp_no,s1.from_date,(s1.salary-s2.salary) as salary_growth 
+from salaries s1,salaries s2 where s1.emp_no=s2.emp_no 
+and (strftime('%Y',s1.to_date)-strftime('%Y',s2.to_date))=1 
+and (s1.salary-s2.salary)>5000 
+order by salary_growth desc;
+
+select c.name,count(c.name) from 
+(select category_id,count(film_id) as s from film_category group by category_id having s>=5) as cc,
+category c,film f,film_category fc where 
+f.film_id=fc.film_id and c.category_id=fc.category_id and c.category_id=cc.category_id and 
+f.description like '%robot%';
+
+SELECT f.film_id, f.title FROM film f LEFT JOIN film_category fc
+ON f.film_id = fc.film_id WHERE fc.category_id IS NULL;
+
+select f.title,f.description from 
+(select category_id from category where name='Action') as c,film f,film_category fc 
+where f.film_id=fc.film_id and fc.category_id=c.category_id;
+
+explain select * from employees
+
+SELECT last_name||" "||first_name AS Name FROM employees;
+
+insert or ignore into actor values (3,'ED','CHASE','2006-02-15 12:34:33');
+
+create table actor (actor_id smallint(5) not null primary key,
+                    first_name varchar(45) not null,
+                   last_name varchar(45) not null,
+                  last_update timestamp NOT NULL DEFAULT (datetime('now','localtime')) 
+                    );
+
+INSERT INTO actor
+values (1,'PENELOPE','GUINESS','2006-02-15 12:34:33')
+,(2,'NICK','WAHLBERG','2006-02-15 12:34:33');
+
+create table actor_name as
+select first_name,last_name from actor;
+
+create unique index uniq_idx_firstname on actor(first_name);
+create index idx_lastname on actor(last_name);
+
+create view actor_name_view (first_name_v,last_name_v) as
+select first_name,last_name from actor;
+
+select * from salaries 
+indexed by idx_emp_no
+where emp_no = '10005';
+
+ALTER TABLE actor 
+ADD COLUMN create_date datetime NOT NULL DEFAULT '0000-00-00 00:00:00';
+
+CREATE TRIGGER audit_log AFTER INSERT ON employees_test
+BEGIN
+    INSERT INTO audit VALUES (NEW.ID, NEW.NAME);
+END;
+
+SELECT e1.first_name FROM 
+  (SELECT e2.first_name, 
+    (SELECT COUNT(*) FROM employees AS e3 
+     WHERE e3.first_name <= e2.first_name) 
+   AS rowid FROM employees AS e2) AS e1
+WHERE e1.rowid % 2 = 1;
+
+delete from titles_test
+where id not in (select min(id) from titles_test group by emp_no);
+
+update titles_test set to_date=null,from_date='2001-01-01' 
+where to_date='9999-01-01';
+
+replace into titles_test values(5, 10005, 'Senior Engineer', '1986-06-26', '9999-01-01');
+	
+alter table titles_test rename to titles_2017;
