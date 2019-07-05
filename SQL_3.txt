@@ -1,0 +1,36 @@
+DROP TABLE audit;
+CREATE TABLE audit(
+    EMP_no INT NOT NULL,
+    create_date datetime NOT NULL,
+    FOREIGN KEY(EMP_no) REFERENCES employees_test(ID));
+
+SELECT "select count(*) from " || name || ";" AS cnts
+FROM sqlite_master WHERE type = 'table';
+
+select (length('10,A,B')-length(replace('10,A,B',',',''))) as cnt;
+
+select first_name from employees order by substr(first_name,length(first_name)-1) asc;
+
+SELECT dept_no, group_concat(emp_no) AS employees
+FROM dept_emp GROUP BY dept_no;
+
+select avg(salary) as avg_salary from salaries 
+where to_date='9999-01-01' and 
+salary <> (select min(s1.salary) from salaries s1) 
+and salary <> (select max(s2.salary) from salaries s2);
+
+select * from employees limit 5,5;
+
+SELECT de.emp_no, de.dept_no, eb.btype, eb.recevied FROM dept_emp AS de LEFT JOIN emp_bonus AS eb
+ON de.emp_no = eb.emp_no;
+
+select * from employees where not exists 
+(select emp_no from dept_emp where emp_no=employees.emp_no);
+
+SELECT s2.emp_no,s2.salary,SUM(s1.salary) AS running_total
+FROM salaries AS s1 INNER JOIN salaries AS s2
+ON s1.emp_no <= s2.emp_no
+WHERE
+s1.to_date = "9999-01-01"
+AND s2.to_date = "9999-01-01"
+GROUP BY s2.emp_no;
