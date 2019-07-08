@@ -1,0 +1,35 @@
+import java.util.Arrays;
+public class Solution {
+    public int MoreThanHalfNum_Solution(int [] array) {
+        if(array.length==0){
+            return 0;
+        }
+        if(array.length==1){
+            return array[0];
+        }
+        Arrays.sort(array);
+        int mid=array.length/2;
+        int max=array[mid];
+        int left=0;
+        int right=0;
+        while(mid-left>0){
+            if(array[mid-left-1]==max){
+                left++;
+            }else{
+                break;
+            }
+        }
+        while(mid+right<array.length-1){
+            if(array[mid+right+1]==max){
+                right++;
+            }else{
+                break;
+            }
+        }
+        if((left+right+1)>array.length/2){
+            return max;
+        }else{
+            return 0;
+        }
+    }
+}
