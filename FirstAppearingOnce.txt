@@ -1,0 +1,28 @@
+import java.util.HashMap;
+public class Solution {
+    //Insert one char from stringstream
+    private HashMap<Character,Integer> temp=new HashMap<Character,Integer>();
+    private StringBuffer str=new StringBuffer();
+    public void Insert(char ch)
+    {
+        str.append(ch);
+        if(temp.containsKey(ch)){
+            temp.put(ch,0);
+        }else{
+            temp.put(ch,1);
+        }
+    }
+  //return the first appearence once char in current stringstream
+    public char FirstAppearingOnce()
+    {
+        char result='#';
+        String str1=str.toString();
+        for(int i=0;i<str1.length();i++){
+            if(temp.get(str1.charAt(i))==1){
+                result=str1.charAt(i);
+                break;
+            }
+        }
+        return result;
+    }
+}
