@@ -1,0 +1,41 @@
+/**
+public class TreeNode {
+    int val = 0;
+    TreeNode left = null;
+    TreeNode right = null;
+
+    public TreeNode(int val) {
+        this.val = val;
+
+    }
+
+}
+*/
+import java.util.Stack;
+public class Solution {
+    public TreeNode Convert(TreeNode pRootOfTree) {
+        if(pRootOfTree==null){
+            return null;
+        }
+        Stack<TreeNode> stack=new Stack<TreeNode>();
+                     TreeNode realHead=null;
+            TreeNode head=null;
+        while(pRootOfTree!=null||!stack.isEmpty()){
+            while(pRootOfTree!=null){
+                 stack.push(pRootOfTree);
+                 pRootOfTree=pRootOfTree.left;
+            }
+            pRootOfTree=stack.pop();
+            if(realHead==null){
+                realHead=pRootOfTree;
+                head=realHead;
+            }else{
+                head.right=pRootOfTree;
+                pRootOfTree.left=head;
+                head=pRootOfTree;
+            }
+            pRootOfTree=pRootOfTree.right;
+        }
+        return realHead;
+    }
+}
